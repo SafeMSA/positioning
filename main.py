@@ -25,7 +25,7 @@ def connect_to_rabbitmq():
 
 def publish_position(channel):
     position = {
-        'id': random.uniform(0, 100),
+        'id': int(random.uniform(0, 100)),
         'x': round(random.uniform(-1000, 1000), 2),
         'y': round(random.uniform(-1000, 1000), 2),
         'z': round(random.uniform(-1000, 1000), 2),
