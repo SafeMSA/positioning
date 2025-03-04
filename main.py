@@ -9,9 +9,11 @@ QUEUE_NAME = 'position_updates'
 
 def connect_to_rabbitmq():
     #Attempts to connect to RabbitMQ, retrying until successful.
+    credentials = pika.PlainCredentials('guest', 'guest')
+    parameters = pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=credentials)
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+            connection = pika.BlockingConnection(parameters)
             channel = connection.channel()
             channel.queue_declare(queue=QUEUE_NAME)
             print("Connected to RabbitMQ")
