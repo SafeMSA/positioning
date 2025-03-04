@@ -3,8 +3,6 @@ import json
 import time
 import random
 
-sleep(60)
-
 # RabbitMQ connection parameters
 RABBITMQ_HOST = 'rabbitmq1'
 QUEUE_NAME = 'position_updates'
