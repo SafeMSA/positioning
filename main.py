@@ -9,7 +9,7 @@ QUEUE_NAME = 'position_updates'
 
 def connect_to_rabbitmq():
     #Attempts to connect to RabbitMQ, retrying until successful.
-    credentials = pika.PlainCredentials('guest', 'guest')
+    credentials = pika.PlainCredentials('myuser', 'mypassword')
     parameters = pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=credentials)
     while True:
         try:
