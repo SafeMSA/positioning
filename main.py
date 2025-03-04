@@ -2,7 +2,6 @@ import pika
 import json
 import time
 import random
-import socket
 
 # RabbitMQ connection parameters
 RABBITMQ_HOST = 'rabbitmq1'
@@ -17,7 +16,7 @@ def connect_to_rabbitmq():
             channel.queue_declare(queue=QUEUE_NAME)
             print("Connected to RabbitMQ")
             return connection, channel
-        except (pika.exceptions.AMQPConnectionError, socket.gaierror):
+        except pika.exceptions.AMQPConnectionError:
             print("RabbitMQ not available, retrying in 5 seconds...")
             time.sleep(5)
         
