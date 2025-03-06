@@ -15,7 +15,20 @@ def connect_to_rabbitmq():
         try:
             connection = pika.BlockingConnection(parameters)
             channel = connection.channel()
-            channel.queue_declare(queue=QUEUE_NAME)
+
+            channel.exchange_declare(exchange='dlx.exchange', exchange_type='direct')
+            channel.queue_declare(queue='dlx.queue')
+            channel.queue_bind(exchange='dlx.exchange', queue='dlx.queue', routing_key='dlx')
+
+            channel.queue_declare(
+                queue=QUEUE_NAME,
+                arguments={
+                    'x-dead-letter-exchange': 'dlx.exchange',   # Send unprocessed messages here
+                    'x-dead-letter-routing-key': 'dlx',          # Routing key
+                    'x-message-ttl': 5,                          # Time to live
+                    'x-max-length': 100                         # Queue max length
+                }
+            )
             print("Connected to RabbitMQ")
             return connection, channel
         except pika.exceptions.AMQPConnectionError:
